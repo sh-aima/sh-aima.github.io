@@ -1,4 +1,6 @@
 var map = new AMap.Map('container', {
+  zoom: 15, // 设置地图缩放级别
+  center: [116.397428, 39.90923], // 默认中心点
   resizeEnable: true,
 });
 AMap.plugin('AMap.Geolocation', function () {

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>高德地图定位示例</title>
+  <style>
+    #mapContainer { width: 100%; height: 600px; }
+  </style>
+</head>
+<body>
+  <div id="mapContainer"></div>
+  <script src="https://webapi.amap.com/maps?v=2.0&key=5b3407c48defe4ce648f1614324a0187"></script>
+  <script>
+    // 初始化地图
+    let map = new AMap.Map('mapContainer', { zoom: 15 });
+    
+    // 使用高德定位SDK
+    AMap.plugin('AMap.Geolocation', function() {
+      let geolocation = new AMap.Geolocation({
+        enableHighAccuracy: true,
+        timeout: 10000
+      });
+      geolocation.getCurrentPosition(function(status, result) {
+        if (status === 'complete') {
+          let lng = result.position.lng;
+          let lat = result.position.lat;
+          map.setCenter([lng, lat]);
+          new AMap.Marker({
+            position: [lng, lat],
+            map: map,
+            title: '您的位置'
+          });
+          new AMap.InfoWindow({
+            content: "地址：" + result.formattedAddress
+          }).open(map, [lng, lat]);
+        } else {
+          alert("定位失败：" + result.message);
+        }
+      });
+    });
+  </script>
+</body>
+</html>
